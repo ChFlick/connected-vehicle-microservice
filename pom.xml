@@ -45,7 +45,6 @@
   <modules>
     <module>service-a</module>
     <module>service-b</module>
-    <module>start</module>
   </modules>
 
   <dependencyManagement>
@@ -235,7 +234,6 @@
       <modules>
         <module>service-a</module>
         <module>service-b</module>
-        <module>start</module>
       </modules>
     </profile>
   </profiles>
