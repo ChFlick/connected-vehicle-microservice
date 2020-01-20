@@ -1,0 +1,78 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="WebSphere 20.0.0.1" type="WebSphereRunConfigurationType" factoryName="Local" APPLICATION_SERVER_NAME="WebSphere 20.0.0.1" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <option name="PORT" value="9080" />
+    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8181/" />
+    <option name="UPDATING_POLICY" value="restart-server" />
+    <deployment>
+      <artifact name="service-a:war">
+        <settings>
+          <option name="EJB_DEPLOY_TOOL_ENABLED" value="true" />
+        </settings>
+      </artifact>
+    </deployment>
+    <server-settings>
+      <option name="PROFILE_PATH" value="" />
+      <option name="SOAP_PORT" value="8880" />
+      <option name="CELL_NAME" value="" />
+      <option name="NODE_NAME" value="" />
+      <option name="SERVER_NAME" value="service-a" />
+      <option name="USERNAME" value="" />
+      <option name="CREDENTIAL_ALIAS" />
+    </server-settings>
+    <predefined_log_file enabled="true" id="WebSphere" />
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="39523" />
+    </RunnerSettings>
+    <ConfigurationWrapper VM_VAR="JVM_ARGS" RunnerId="Cover">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <ConfigurationWrapper VM_VAR="JVM_ARGS" RunnerId="Debug">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <ConfigurationWrapper VM_VAR="JVM_ARGS" RunnerId="Run">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="service-a:war" />
+      </option>
+    </method>
+  </configuration>
+</component>
