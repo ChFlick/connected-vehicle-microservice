@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
-SUMO_DB = 'sumo_example_2'
+SUMO_DB = 'sumo_example'
 TRACI_PORT = 8081
 
 
