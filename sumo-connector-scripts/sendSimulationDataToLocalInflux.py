@@ -36,8 +36,6 @@ def run():
         # Only bus
         subscription_results = traci.vehicle.getAllSubscriptionResults()
         vehicles = [subscriberToInfluxJson(id, subscription_results[id]) for id in subscription_results]
-        for v in vehicles:
-            print(v)
         client.write_points(vehicles)
 
         # ALL VEHICLES
