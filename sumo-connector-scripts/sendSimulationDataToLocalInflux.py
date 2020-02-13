@@ -31,11 +31,14 @@ def run():
     step = 0
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
+        departed_ids = traci.simulation.getDepartedIDList()
+        [subscribe(x) for x in departed_ids if traci.vehicle.getTypeID(x) == 'bus']
         # Only bus
-        vehicle_ids = [x for x in traci.vehicle.getIDList() if traci.vehicle.getTypeID(x) == 'bus']
-        if (len(vehicle_ids) > 0):
-            vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
-            client.write_points(vehicles)
+        subscription_results = traci.vehicle.getAllSubscriptionResults()
+        vehicles = [subscriberToInfluxJson(id, subscription_results[id]) for id in subscription_results]
+        for v in vehicles:
+            print(v)
+        client.write_points(vehicles)
 
         # ALL VEHICLES
         # vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
@@ -45,49 +48,28 @@ def run():
     sys.stdout.flush()
 
 
-@dataclass
-class VehicleData:
-    '''Class for keeping track of vehicle data.'''
-    vehicle_id: str
-    speed_m_per_s: float
-    pos_x: str
-    pos_y: str
-    type_id: int
-    person_capacity: int
-    person_number: int
+def subscribe(vehicle_id):
+    traci.vehicle.subscribe(vehicle_id, [tc.VAR_SPEED, tc.VAR_POSITION, tc.VAR_TYPE, tc.VAR_PERSON_CAPACITY, tc.VAR_PERSON_NUMBER])
 
-    def to_json(self) -> json:
-        time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        latitude, longitude = traci.simulation.convertGeo(
-            self.pos_x, self.pos_y)
-        speed_kmh = self.speed_m_per_s * 3.6
-        return {
-            "measurement": "vehicle_data",
-            "time": time,
-            "tags": {
-                "typeId": self.type_id,
-                "vehicleId": self.vehicle_id
-            },
-            "fields": {
-                "speed": speed_kmh,
-                "latitude": latitude,
-                "longitude": longitude,
-                "personCapacity": self.person_capacity,
-                "personNumber": self.person_number
-            }
+def subscriberToInfluxJson(vehicle_id, data) -> json:
+    time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    latitude, longitude = traci.simulation.convertGeo(data[tc.VAR_POSITION][0], data[tc.VAR_POSITION][1])
+    speed_kmh = data[tc.VAR_SPEED] * 3.6
+    return {
+        "measurement": "vehicle_data",
+        "time": time,
+        "tags": {
+            "typeId": data[tc.VAR_TYPE],
+            "vehicleId": vehicle_id
+        },
+        "fields": {
+            "speed": speed_kmh,
+            "latitude": latitude,
+            "longitude": longitude,
+            "personCapacity": data[tc.VAR_PERSON_CAPACITY],
+            "personNumber": data[tc.VAR_PERSON_NUMBER]
         }
-
-
-def vehicleJsonFromVehicleId(vehicle_id: int) -> VehicleData:
-    x, y = traci.vehicle.getPosition(vehicle_id)
-    vehicle = VehicleData(vehicle_id,
-                          traci.vehicle.getSpeed(vehicle_id),
-                          x, y,
-                          traci.vehicle.getTypeID(vehicle_id),
-                          traci.vehicle.getPersonCapacity(vehicle_id),
-                          len(traci.vehicle.getPersonIDList(vehicle_id)))
-    return vehicle.to_json()
-
+    }
 
 if __name__ == "__main__":
     run()
