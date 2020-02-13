@@ -10,7 +10,7 @@ from influxdb import InfluxDBClient
 
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
-SUMO_DB = 'sumo_example'
+SUMO_DB = 'cologne'
 TRACI_PORT = 8081
 
 def run():
@@ -32,15 +32,16 @@ def run():
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
         departed_ids = traci.simulation.getDepartedIDList()
-        [subscribe(x) for x in departed_ids if traci.vehicle.getTypeID(x) == 'bus']
-        # Only bus
+
+        # ALL VEHICLES
+        [subscribe(x) for x in departed_ids]
+
+        # ONLY BUS
+        # [subscribe(x) for x in departed_ids if traci.vehicle.getTypeID(x) == 'bus']
+
         subscription_results = traci.vehicle.getAllSubscriptionResults()
         vehicles = [subscriberToInfluxJson(id, subscription_results[id]) for id in subscription_results]
         client.write_points(vehicles)
-
-        # ALL VEHICLES
-        # vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
-        # client.write_points(vehicles)
         step += 1
     traci.close()
     sys.stdout.flush()
