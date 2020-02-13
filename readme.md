@@ -1,10 +1,10 @@
-# MicroProfile generated Applications
+Connected Vehicle Service
+=========================
 
-MicroProfile Starter has generated 2 MicroProfile applications for you.
-
-There are 2 projects generated so that the examples for the Rest Client and/or JWT Auth specification are more realistic in the sense that they actually call an endpoint within another service.
-
-. In the `service-a` directory, you can find an application with the major parts of the application. This can be seen as the 'client'.
-. In the `service-b` directory, you can find some endpoints which will be called by code within the client application. This can be seen as the 'backend'.
-
-Have a look in the `readme.md` file in each directory which describes how each project can be built and run.
+SUMO-InfluxDB Connection
+------------------------
+For the SUMO-Influx connection you need a [SUMO scenario](https://sumo.dlr.de/docs/Data/Scenarios.html), for example [TAPASCologne](https://sumo.dlr.de/docs/Data/Scenarios/TAPASCologne.html).  
+To start the connection of SUMO to the influxDB:
+1.  Start docker containers `docker-compose up`
+2.  Start the scenarion `sumo -c ./TAPASCologne-0.32.0/cologne.sumocfg --remote-port 8081`
+3.  Run the python script `python ./sumo-connector-scripts/sendSimulationDataToLocalInflux.py`
