@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
-SUMO_DB = 'sumo_example'
+SUMO_DB = 'sumo_example_2'
 TRACI_PORT = 8081
 
 
@@ -26,11 +26,15 @@ def run():
     step = 0
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
-        # vehicle_ids = [x for x in traci.vehicle.getIDList() if traci.vehicle.getTypeID(x) != 'pkw']
-        # if (len(vehicle_ids) > 0):
-        #     print('not only pkw')
-        vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
-        client.write_points(vehicles)
+        # Only bus
+        vehicle_ids = [x for x in traci.vehicle.getIDList() if traci.vehicle.getTypeID(x) == 'bus']
+        if (len(vehicle_ids) > 0):
+            vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
+            client.write_points(vehicles)
+
+        # ALL VEHICLES
+        # vehicles = list(map(vehicleJsonFromVehicleId, traci.vehicle.getIDList()))
+        # client.write_points(vehicles)
         step += 1
     traci.close()
     sys.stdout.flush()
@@ -76,7 +80,7 @@ def vehicleJsonFromVehicleId(vehicle_id: int) -> VehicleData:
                           x, y,
                           traci.vehicle.getTypeID(vehicle_id),
                           traci.vehicle.getPersonCapacity(vehicle_id),
-                          traci.vehicle.getPersonNumber(vehicle_id))
+                          len(traci.vehicle.getPersonIDList(vehicle_id)))
     return vehicle.to_json()
 
 
