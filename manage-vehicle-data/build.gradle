@@ -10,8 +10,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.influxdb:influxdb-java:2.10'
-
+    implementation 'io.github.microutils:kotlin-logging:1.7.8'
+    implementation 'org.influxdb:influxdb-java:2.15'
     implementation 'io.quarkus:quarkus-smallrye-metrics'
     implementation 'io.quarkus:quarkus-smallrye-health'
     implementation 'io.quarkus:quarkus-kotlin'

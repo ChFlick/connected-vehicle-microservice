@@ -1,22 +1,31 @@
 package de.flick.connectors.influxdb
 
-import org.apache.commons.logging.Log
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBFactory
 import org.influxdb.dto.Query
-import org.jboss.logmanager.Level
-import java.util.logging.Logger
+import org.influxdb.dto.QueryResult
+import javax.annotation.PostConstruct
+import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
-class InfluxDBConnector
-@Inject constructor(private val username: String,
-                    private val password: String,
-                    private val database: String) {
-    fun query() {
-        val influxDb = InfluxDBFactory.connect("http://localhost:8086", username, password)
-        influxDb.setDatabase(database)
+@ApplicationScoped
+class InfluxDBConnector {
+    @ConfigProperty(name = "username", defaultValue = "admin")
+    lateinit var username: String;
 
-        val query = Query("""SELECT speed FROM vehicledata WHERE time < now()""", database)
+    @ConfigProperty(name = "password", defaultValue = "admin")
+    lateinit var password: String;
 
-        influxDb.query(query).results.forEach { org.jboss.logmanager.Logger.getAnonymousLogger().warning(it.toString()) }
+    @ConfigProperty(name = "database", defaultValue = "monaco")
+    lateinit var database: String;
+
+    fun query(query: Query): QueryResult? {
+        val influxDb = InfluxDBFactory.connect("http://localhost:8086", this.username, this.password)
+
+        influxDb.enableGzip()
+        influxDb.setDatabase(this.database)
+
+        return influxDb.query(query)
     }
 }
