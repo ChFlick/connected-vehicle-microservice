@@ -10,8 +10,9 @@ from influxdb import InfluxDBClient
 
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
-SUMO_DB = 'cologne'
+SUMO_DB = 'monaco'
 TRACI_PORT = 8081
+
 
 def run():
     if len(sys.argv) < 2:
@@ -29,6 +30,9 @@ def run():
     print('traci init')
 
     step = 0
+
+    startTime = datetime.now()
+
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
         departed_ids = traci.simulation.getDepartedIDList()
@@ -40,19 +44,35 @@ def run():
         # [subscribe(x) for x in departed_ids if traci.vehicle.getTypeID(x) == 'bus']
 
         subscription_results = traci.vehicle.getAllSubscriptionResults()
-        vehicles = [subscriberToInfluxJson(id, subscription_results[id]) for id in subscription_results]
+        vehicles = [subscriberToInfluxJson(
+            id, subscription_results[id]) for id in subscription_results]
         client.write_points(vehicles)
         step += 1
+
+        if(step % 1000 == 0):
+            print("\n", "Time:", traci.simulation.getTime())
+            print("Vehicles:", traci.vehicle.getIDCount())
     traci.close()
+
+    endTime = datetime.now()
+    print("Simulation Time:",
+          startTime.strftime('%Y-%m-%dT%H:%M:%SZ'),
+          endTime.strftime('%Y-%m-%dT%H:%M:%SZ'),
+          "differnce:",
+          (endTime - startTime).strftime('%Y-%m-%dT%H:%M:%SZ'))
+
     sys.stdout.flush()
 
 
 def subscribe(vehicle_id):
-    traci.vehicle.subscribe(vehicle_id, [tc.VAR_SPEED, tc.VAR_POSITION, tc.VAR_TYPE, tc.VAR_PERSON_CAPACITY, tc.VAR_PERSON_NUMBER])
+    traci.vehicle.subscribe(vehicle_id, [
+                            tc.VAR_SPEED, tc.VAR_POSITION, tc.VAR_TYPE, tc.VAR_PERSON_CAPACITY, tc.VAR_PERSON_NUMBER])
+
 
 def subscriberToInfluxJson(vehicle_id, data) -> json:
     time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-    latitude, longitude = traci.simulation.convertGeo(data[tc.VAR_POSITION][0], data[tc.VAR_POSITION][1])
+    latitude, longitude = traci.simulation.convertGeo(
+        data[tc.VAR_POSITION][0], data[tc.VAR_POSITION][1])
     speed_kmh = data[tc.VAR_SPEED] * 3.6
     return {
         "measurement": "vehicle_data",
@@ -70,6 +90,7 @@ def subscriberToInfluxJson(vehicle_id, data) -> json:
             "typeId": data[tc.VAR_TYPE]
         }
     }
+
 
 if __name__ == "__main__":
     run()
