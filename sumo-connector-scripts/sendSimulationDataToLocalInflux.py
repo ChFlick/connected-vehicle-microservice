@@ -66,7 +66,8 @@ def subscriberToInfluxJson(vehicle_id, data) -> json:
             "latitude": latitude,
             "longitude": longitude,
             "personCapacity": data[tc.VAR_PERSON_CAPACITY],
-            "personNumber": data[tc.VAR_PERSON_NUMBER]
+            "personNumber": data[tc.VAR_PERSON_NUMBER],
+            "typeId": data[tc.VAR_TYPE]
         }
     }
 
