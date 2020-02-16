@@ -26,6 +26,8 @@ def run():
     client.switch_database(SUMO_DB)
     print('client available')
 
+    ## GUI / CLI
+    # traci.start(["sumo-gui", "-c", sys.argv[1]])
     traci.start(["sumo", "-c", sys.argv[1]])
     print('traci init')
 
