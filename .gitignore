@@ -6,6 +6,9 @@ libs/
 tmp/
 node_modules/
 
+# Some logfiles
+lsp/
+
 # OS Files #
 .DS_Store
 
