@@ -27,8 +27,8 @@ def run():
     print('client available')
 
     ## GUI / CLI
-    # traci.start(["sumo-gui", "-c", sys.argv[1]])
-    traci.start(["sumo", "-c", sys.argv[1]])
+    traci.start(["sumo-gui", "-c", sys.argv[1]])
+    # traci.start(["sumo", "-c", sys.argv[1]])
     print('traci init')
 
     step = 0

@@ -1,4 +1,4 @@
-package de.flick
+package de.flick.traffic.vehicles
 
 import org.influxdb.annotation.Column
 import org.influxdb.annotation.Measurement
