@@ -16,11 +16,11 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('manage-vehicle-data/gradle/wrapper/gradle-wrapper.properties') }}
     - uses: actions/cache@v1
       with:
         path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('manage-vehicle-data/gradle/wrapper/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-caches-
 
