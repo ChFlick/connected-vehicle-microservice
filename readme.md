@@ -1,6 +1,8 @@
 Connected Vehicle Service
 =========================
 
+![CI](https://github.com/ChFlick/connected-vehicle-microservice/workflows/CI/badge.svg)
+
 SUMO-InfluxDB Connection
 ------------------------
 For the SUMO-Influx connection you need a [SUMO scenario](https://sumo.dlr.de/docs/Data/Scenarios.html), for example [TAPASCologne](https://sumo.dlr.de/docs/Data/Scenarios/TAPASCologne.html).  
