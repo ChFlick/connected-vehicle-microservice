@@ -6,6 +6,8 @@ libs/
 tmp/
 node_modules/
 
+!gradle-wrapper.jar
+
 # Some logfiles
 lsp/
 
