@@ -18,13 +18,12 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON
 
 private val logger = KotlinLogging.logger {}
 
-@Path("/traffic")
+@Path("/vehicles")
 @RequestScoped()
 class ExampleResource
 @Inject
 constructor(private val vehicleRepository: VehicleRepository) {
 
-    @Path("/vehicles")
     @GET()
     @PermitAll
     @Produces(APPLICATION_JSON)
