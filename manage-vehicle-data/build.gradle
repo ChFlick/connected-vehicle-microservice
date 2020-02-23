@@ -31,6 +31,10 @@ dependencies {
     testImplementation 'org.testcontainers:influxdb:1.12.5'
 }
 
+configurations.all {
+    exclude group: 'javax.enterprise', module: 'cdi-api'
+}
+
 group 'de.flick'
 version '1.0.0-SNAPSHOT'
 
