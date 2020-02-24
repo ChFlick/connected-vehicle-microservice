@@ -1,8 +1,8 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "1.3.41"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.3.41"
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '1.3.41'
     id 'io.quarkus'
-    id 'com.adarshr.test-logger' version "2.0.0"
+    id 'com.adarshr.test-logger' version '2.0.0'
 }
 
 repositories {
@@ -53,15 +53,15 @@ allOpen {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
     kotlinOptions.javaParameters = true
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
