@@ -5,6 +5,9 @@
     <file type="web" url="file://$PROJECT_DIR$/service-a" />
     <file type="web" url="file://$PROJECT_DIR$/service-b" />
   </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="JSX" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
