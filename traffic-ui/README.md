@@ -2,6 +2,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+### Generating the service call from openapi
+
+`openapi-generator generate -i http://localhost:8083/openapi -g typescript-fetch`
+
 In the project directory, you can run:
 
 ### `yarn start`

@@ -4,26 +4,28 @@ import { Heatmap, Tile } from 'ol/layer';
 import { OSM, Vector } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import './App.css';
-import Geometry from 'ol/geom/Geometry';
-import FeatureFormat from 'ol/format/Feature';
 import Point from 'ol/geom/Point';
+import { DefaultApi, Configuration } from './service';
 
 
 class App extends React.Component {
+  center = [7.4309, 43.7349];
+  zoom = 14;
+
+  api = new DefaultApi(new Configuration({ basePath: 'http://localhost:8083' }));
+
   componentDidMount = () => {
-    const center = [7.4309, 43.7349];
-    const zoom = 14;
 
     const point = new Feature({
-      geometry: new Point(fromLonLat(center)),
+      geometry: new Point(fromLonLat(this.center)),
       weight: 1,
     });
     const point1 = new Feature({
-      geometry: new Point(fromLonLat(center)),
+      geometry: new Point(fromLonLat(this.center)),
       weight: 1,
     });
     const point2 = new Feature({
-      geometry: new Point(fromLonLat(center)),
+      geometry: new Point(fromLonLat(this.center)),
       weight: 1,
     });
 
@@ -41,8 +43,8 @@ class App extends React.Component {
         }),
       ],
       view: new View({
-        center: fromLonLat(center),
-        zoom,
+        center: fromLonLat(this.center),
+        zoom: this.zoom,
       }),
     });
   }
