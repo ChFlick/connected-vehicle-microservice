@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'org.siouan.frontend' version '1.3.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+}
+
+group 'de.flick'
+version '1.0.0-SNAPSHOT'
+
+frontend {
+    nodeVersion = '12.6.0'
+    yarnEnabled = true
+    yarnVersion = '1.22.0'
+    yarnInstallDirectory = "${projectDir}/yarn"
+    cleanScript = 'run clean'
+    assembleScript = 'run assemble'
+    checkScript = 'run check'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
