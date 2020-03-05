@@ -20,7 +20,7 @@ frontend {
     nodeVersion = '12.6.0'
     cleanScript = 'run clean'
     assembleScript = 'run build'
-    checkScript = 'run test'
+    checkScript = 'run test:nowatch'
 }
 
 java {
