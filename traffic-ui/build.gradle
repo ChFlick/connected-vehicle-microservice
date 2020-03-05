@@ -18,12 +18,9 @@ version '1.0.0-SNAPSHOT'
 
 frontend {
     nodeVersion = '12.6.0'
-    yarnEnabled = true
-    yarnVersion = '1.22.0'
-    yarnInstallDirectory = "${projectDir}/yarn"
     cleanScript = 'run clean'
-    assembleScript = 'run assemble'
-    checkScript = 'run check'
+    assembleScript = 'run build'
+    checkScript = 'run test'
 }
 
 java {

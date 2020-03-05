@@ -19,6 +19,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "clean": "rimraf build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -38,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
   }
 }
