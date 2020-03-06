@@ -29,6 +29,7 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:influxdb:1.12.5'
+    testImplementation 'org.assertj:assertj-core:3.15.0'
 }
 
 configurations.all {
