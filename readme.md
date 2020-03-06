@@ -1,7 +1,8 @@
 Connected Vehicle Service
 =========================
 
-![CI](https://github.com/ChFlick/connected-vehicle-microservice/workflows/CI/badge.svg)
+![traffic-ui](https://github.com/ChFlick/connected-vehicle-microservice/workflows/traffic-ui/badge.svg)
+![manage-vehicle-data](https://github.com/ChFlick/connected-vehicle-microservice/workflows/manage-vehicle-data/badge.svg)
 
 SUMO-InfluxDB Connection
 ------------------------
