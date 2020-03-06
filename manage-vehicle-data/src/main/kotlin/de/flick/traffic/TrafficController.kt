@@ -20,7 +20,7 @@ private val logger = KotlinLogging.logger {}
 
 @Path("/vehicles")
 @RequestScoped()
-class ExampleResource
+class TrafficController
 @Inject
 constructor(private val vehicleRepository: VehicleRepository) {
 
