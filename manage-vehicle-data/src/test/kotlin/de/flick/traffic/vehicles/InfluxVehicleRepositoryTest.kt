@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @QuarkusTest
 @QuarkusTestResource(InfluxDBResource::class)
-class InfluxVehicleRepositoryTest
+open class InfluxVehicleRepositoryTest
 @Inject constructor(private val influxVehicleRepository: InfluxVehicleRepository) {
     @Test
     fun findByMinutesFromNow() {
