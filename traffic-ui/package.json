@@ -19,9 +19,9 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "clean": "rimraf build",
+    "clean": "rimraf build && rimraf src/main/resources/META-INF/resources",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && copyfiles -u 1 \"build/**/*\" src/main/resources/META-INF/resources",
     "test": "react-scripts test",
     "test:nowatch": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "copyfiles": "^2.2.0",
     "rimraf": "^3.0.2"
   },
   "jest": {
