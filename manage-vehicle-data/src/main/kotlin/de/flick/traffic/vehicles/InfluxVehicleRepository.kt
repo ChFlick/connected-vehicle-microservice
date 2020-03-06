@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 
 @ApplicationScoped
-open class InfluxVehicleRepository
-constructor(private val influxDB: InfluxDB) : VehicleRepository {
+class InfluxVehicleRepository
+private constructor(private val influxDB: InfluxDB) : VehicleRepository {
     @Inject
     constructor (influxDBProvider: InfluxDBProvider) : this(influxDBProvider.get())
 
