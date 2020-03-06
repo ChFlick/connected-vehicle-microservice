@@ -1,4 +1,4 @@
-name: CI
+name: manage-vehicle-data
 
 on: [push]
 
@@ -14,8 +14,4 @@ jobs:
           java-version: 13
 
       - name: Gradle build & test Manage Vehicle Data
-        uses: eskatos/gradle-command-action@v1
-        with:
-          build-root-directory: ./manage-vehicle-data
-          wrapper-directory: ./manage-vehicle-data
-          arguments: build check
+        run: cd ./manage-vehicle-data/ && ./gradlew build check
