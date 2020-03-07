@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @ApplicationScoped
 class InfluxVehicleRepository
-constructor(private val influxDB: InfluxDB) : VehicleRepository {
+private constructor(private val influxDB: InfluxDB) : VehicleRepository {
     @Inject
     constructor (influxDBProvider: InfluxDBProvider) : this(influxDBProvider.get())
 
