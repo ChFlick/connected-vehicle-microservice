@@ -4,11 +4,7 @@ import mu.KotlinLogging
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBFactory
-import org.influxdb.dto.Query
-import org.influxdb.dto.QueryResult
-import javax.annotation.PostConstruct
 import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 import javax.inject.Provider
 
 private val logger = KotlinLogging.logger {}
