@@ -10,11 +10,12 @@ import javax.inject.Inject
 
 @QuarkusTest
 @QuarkusTestResource(InfluxDBResource::class)
-class InfluxVehicleRepositoryTest
-@Inject constructor(private val influxDBProvider: InfluxDBProvider) {
+class InfluxVehicleRepositoryTest {
+    @Inject
+    lateinit private var influxVehicleRepository: InfluxVehicleRepository
+
     @Test
     fun findByMinutesFromNow() {
-        val influxVehicleRepository = InfluxVehicleRepository(influxDBProvider)
         val result = influxVehicleRepository.findByMinutesFromNow(5)
 
         assertThat(result).isEmpty()
