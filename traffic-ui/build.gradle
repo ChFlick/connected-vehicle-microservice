@@ -18,6 +18,7 @@ group 'de.flick'
 version '1.0.0-SNAPSHOT'
 
 frontend {
+    yarnEnabled = true
     nodeVersion = '12.6.0'
     cleanScript = 'run clean'
     assembleScript = 'run build'
