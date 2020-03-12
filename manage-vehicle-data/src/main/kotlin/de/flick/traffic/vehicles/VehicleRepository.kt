@@ -7,5 +7,7 @@ import javax.enterprise.context.ApplicationScoped
 interface VehicleRepository {
     fun findByStartAndEndTime(start: Instant, end: Instant): List<VehicleDTO>
 
+    fun findFromTillNow(start: Instant): List<VehicleDTO>
+
     fun findByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO>
 }

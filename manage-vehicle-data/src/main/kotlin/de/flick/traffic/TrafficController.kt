@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY
 import org.eclipse.microprofile.openapi.annotations.media.Content
 import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
+import java.time.Instant
 import javax.annotation.security.PermitAll
 import javax.enterprise.context.RequestScoped
 import javax.inject.Inject
@@ -36,5 +37,5 @@ constructor(private val vehicleRepository: VehicleRepository) {
                 type = ARRAY)
         )]
     )
-    fun getVehicles(): List<VehicleDTO> = vehicleRepository.findByMinutesFromNow(5)
+    fun getVehicles(): List<VehicleDTO> = vehicleRepository.findFromTillNow(Instant.now().minusMillis(1000))
 }

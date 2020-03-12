@@ -1,13 +1,19 @@
 package de.flick.traffic.vehicles
 
 import de.flick.connectors.influxdb.InfluxDBProvider
+import mu.KotlinLogging
 import org.influxdb.InfluxDB
 import org.influxdb.dto.Query
 import org.influxdb.impl.InfluxDBResultMapper
 import java.time.Instant
+import java.time.ZoneOffset
+import java.time.ZoneOffset.*
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
+private val logger = KotlinLogging.logger {}
 
 @ApplicationScoped
 class InfluxVehicleRepository
@@ -21,10 +27,27 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data WHERE time > $start AND time < $end GROUP BY vehicleId")
+            "FROM vehicle_data WHERE time > '$start' AND time < '$end' GROUP BY vehicleId")
+
+        logger.info { "Querying " + query.command }
 
         return execute(query)
     }
+
+    override fun findFromTillNow(start: Instant): List<VehicleDTO> {
+        if (start.isAfter(Instant.now())) {
+            return emptyList()
+        }
+
+        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
+            "FROM vehicle_data WHERE time > '$start' AND time < now() " +
+            "GROUP BY vehicleId")
+
+        logger.info { "Querying " + query.command }
+
+        return execute(query)
+    }
+
 
     override fun findByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO> {
         if (minutesFromNow < 1) {
@@ -33,6 +56,8 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
             "FROM vehicle_data WHERE time > now() - ${minutesFromNow}m GROUP BY vehicleId")
+
+        logger.info { "Querying " + query.command }
 
         return execute(query)
     }
