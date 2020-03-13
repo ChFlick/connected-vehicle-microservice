@@ -1,2 +1,1 @@
-export * from './Instant';
-export * from './VehicleDTO';
+export * from './Vehicle';

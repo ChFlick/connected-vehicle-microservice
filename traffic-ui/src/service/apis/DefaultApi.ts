@@ -15,9 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
-    VehicleDTO,
-    VehicleDTOFromJSON,
-    VehicleDTOToJSON,
+    Vehicle,
+    VehicleFromJSON,
+    VehicleToJSON,
 } from '../models';
 
 /**
@@ -27,7 +27,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesGetRaw(): Promise<runtime.ApiResponse<Array<VehicleDTO>>> {
+    async trafficVehiclesGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -39,12 +39,12 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(VehicleDTOFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(VehicleFromJSON));
     }
 
     /**
      */
-    async trafficVehiclesGet(): Promise<Array<VehicleDTO>> {
+    async trafficVehiclesGet(): Promise<Array<Vehicle>> {
         const response = await this.trafficVehiclesGetRaw();
         return await response.value();
     }

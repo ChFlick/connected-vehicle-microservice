@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/google-map-react": "^1.1.5",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
-    "@types/ol": "^6.1.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-leaflet": "^2.5.0",
-    "ol": "^6.2.1",
+    "google-map-react": "^1.1.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.4.0",
@@ -24,7 +25,8 @@
     "build": "react-scripts build && copyfiles -u 1 \"build/**/*\" src/main/resources/META-INF/resources",
     "test": "react-scripts test",
     "test:nowatch": "CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "openapi:generate": "openapi-generator generate -i http://localhost:8083/openapi -g typescript-fetch -p typescriptThreePlus=true -o ./src/service/"
   },
   "eslintConfig": {
     "extends": "react-app"

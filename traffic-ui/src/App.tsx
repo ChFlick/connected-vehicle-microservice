@@ -1,57 +1,71 @@
+/* global google */
+
 import React from 'react';
-import { Map, View, Feature } from 'ol';
-import { Heatmap, Tile } from 'ol/layer';
-import { OSM, Vector } from 'ol/source';
-import { fromLonLat } from 'ol/proj';
+import GoogleMapReact, { Coords } from 'google-map-react';
 import './App.css';
-import Point from 'ol/geom/Point';
 import { DefaultApi, Configuration } from './service';
 
+type Position = {
+  lat: Number;
+  lng: Number;
+  weight?: Number;
+}
+interface HeatmapProp {
+  positions: Position[];
+  options: {
+    radius?: number;
+    opacity?: number;
+  };
+}
 
 class App extends React.Component {
-  center = [7.4309, 43.7349];
+  googleMap: GoogleMapReact | null = null;
+  center: Coords = { lng: 7.4, lat: 43.7372312 };
   zoom = 14;
 
   api = new DefaultApi(new Configuration({ basePath: 'http://localhost:8083' }));
 
+  heatmapProp: HeatmapProp = {
+    positions: [],
+    options: {
+      opacity: 1,
+      radius: 10,
+    }
+  };
+
   componentDidMount = () => {
+    setTimeout(() => this.api.trafficVehiclesGet().then((vehicles) => {
+      const positions = vehicles.map(vehicle => ({
+        // @ts-ignore
+        location: new google.maps.LatLng(vehicle.longitude!, vehicle.latitude!),
+        weight: 1 + (vehicle.personNumber || 0),
+      }));
 
-    const point = new Feature({
-      geometry: new Point(fromLonLat(this.center)),
-      weight: 1,
-    });
-    const point1 = new Feature({
-      geometry: new Point(fromLonLat(this.center)),
-      weight: 1,
-    });
-    const point2 = new Feature({
-      geometry: new Point(fromLonLat(this.center)),
-      weight: 1,
-    });
-
-    const data = new Vector();
-    data.addFeatures([point, point1, point2]);
-
-    new Map({
-      target: 'mapContainer',
-      layers: [
-        new Tile({
-          source: new OSM(),
-        }),
-        new Heatmap({
-          source: data,
-        }),
-      ],
-      view: new View({
-        center: fromLonLat(this.center),
-        zoom: this.zoom,
-      }),
-    });
+      // this.heatmapProp.positions = positions;
+      positions.forEach(p => {
+        if (this.googleMap) {
+          (this.googleMap as any).heatmap.data.push(p);
+        }
+      });
+    }), 1000)
   }
 
   render = () => (
     <div className="app">
-      <div className="map-container" id='mapContainer'></div>
+      <div className="map-container" id='mapContainer'>
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: 'AIzaSyDcCVy39I9x2nIHxi0FoB2MImUgTFmoEA4',
+            libraries: ['visualization']
+          }}
+          defaultCenter={this.center}
+          defaultZoom={this.zoom}
+          heatmapLibrary={true}
+          // @ts-ignore
+          heatmap={this.heatmapProp}
+          ref={(el) => this.googleMap = el}
+        />
+      </div>
     </div>
   );
 }

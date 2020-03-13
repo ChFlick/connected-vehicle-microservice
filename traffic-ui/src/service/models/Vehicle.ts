@@ -13,74 +13,67 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    Instant,
-    InstantFromJSON,
-    InstantFromJSONTyped,
-    InstantToJSON,
-} from './';
-
 /**
- * 
+ * POJO that represents a vehicle at a specific time.
  * @export
- * @interface VehicleDTO
+ * @interface Vehicle
  */
-export interface VehicleDTO {
+export interface Vehicle {
     /**
      * 
      * @type {number}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     latitude?: number;
     /**
      * 
      * @type {number}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     longitude?: number;
     /**
      * 
      * @type {number}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     personCapacity?: number;
     /**
      * 
      * @type {number}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     personNumber?: number;
     /**
      * 
      * @type {number}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     speed?: number;
     /**
      * 
-     * @type {Instant}
-     * @memberof VehicleDTO
+     * @type {Date}
+     * @memberof Vehicle
      */
-    time?: Instant;
+    time?: Date;
     /**
      * 
      * @type {string}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     typeId?: string;
     /**
      * 
      * @type {string}
-     * @memberof VehicleDTO
+     * @memberof Vehicle
      */
     vehicleId?: string;
 }
 
-export function VehicleDTOFromJSON(json: any): VehicleDTO {
-    return VehicleDTOFromJSONTyped(json, false);
+export function VehicleFromJSON(json: any): Vehicle {
+    return VehicleFromJSONTyped(json, false);
 }
 
-export function VehicleDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): VehicleDTO {
+export function VehicleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Vehicle {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -91,13 +84,13 @@ export function VehicleDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'personCapacity': !exists(json, 'personCapacity') ? undefined : json['personCapacity'],
         'personNumber': !exists(json, 'personNumber') ? undefined : json['personNumber'],
         'speed': !exists(json, 'speed') ? undefined : json['speed'],
-        'time': !exists(json, 'time') ? undefined : InstantFromJSON(json['time']),
+        'time': !exists(json, 'time') ? undefined : (new Date(json['time'])),
         'typeId': !exists(json, 'typeId') ? undefined : json['typeId'],
         'vehicleId': !exists(json, 'vehicleId') ? undefined : json['vehicleId'],
     };
 }
 
-export function VehicleDTOToJSON(value?: VehicleDTO | null): any {
+export function VehicleToJSON(value?: Vehicle | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -111,7 +104,7 @@ export function VehicleDTOToJSON(value?: VehicleDTO | null): any {
         'personCapacity': value.personCapacity,
         'personNumber': value.personNumber,
         'speed': value.speed,
-        'time': InstantToJSON(value.time),
+        'time': value.time === undefined ? undefined : (value.time.toISOString()),
         'typeId': value.typeId,
         'vehicleId': value.vehicleId,
     };
