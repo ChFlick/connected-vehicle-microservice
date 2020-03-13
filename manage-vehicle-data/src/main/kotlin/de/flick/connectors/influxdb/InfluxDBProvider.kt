@@ -7,10 +7,10 @@ import org.influxdb.InfluxDBFactory
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Provider
 
-private val logger = KotlinLogging.logger {}
-
 @ApplicationScoped
 class InfluxDBProvider : Provider<InfluxDB> {
+    private val logger = KotlinLogging.logger {}
+
     @ConfigProperty(name = "traffic.influx.username", defaultValue = "admin")
     lateinit var username: String
 

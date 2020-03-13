@@ -6,18 +6,14 @@ import org.influxdb.InfluxDB
 import org.influxdb.dto.Query
 import org.influxdb.impl.InfluxDBResultMapper
 import java.time.Instant
-import java.time.ZoneOffset
-import java.time.ZoneOffset.*
-import java.time.format.DateTimeFormatterBuilder
-import java.time.temporal.ChronoField
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
-
-private val logger = KotlinLogging.logger {}
 
 @ApplicationScoped
 class InfluxVehicleRepository
 private constructor(private val influxDB: InfluxDB) : VehicleRepository {
+    private val logger = KotlinLogging.logger {}
+
     @Inject
     constructor (influxDBProvider: InfluxDBProvider) : this(influxDBProvider.get())
 

@@ -1,6 +1,5 @@
 package de.flick.traffic
 
-import de.flick.traffic.vehicles.VehicleDTO
 import de.flick.traffic.vehicles.VehicleRepository
 import mu.KotlinLogging
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY
@@ -17,15 +16,14 @@ import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
 
 
-private val logger = KotlinLogging.logger {}
-
 @Path("/vehicles")
-@RequestScoped()
+@RequestScoped
 class TrafficController
 @Inject
 constructor(private val vehicleRepository: VehicleRepository) {
+    private val logger = KotlinLogging.logger {}
 
-    @GET()
+    @GET
     @PermitAll
     @Produces(APPLICATION_JSON)
     @APIResponse(
@@ -33,9 +31,11 @@ constructor(private val vehicleRepository: VehicleRepository) {
         content = [Content(
             mediaType = APPLICATION_JSON,
             schema = Schema(
-                implementation = VehicleDTO::class,
+                implementation = VehicleRepresentation::class,
                 type = ARRAY)
         )]
     )
-    fun getVehicles(): List<VehicleDTO> = vehicleRepository.findFromTillNow(Instant.now().minusMillis(1000))
+    fun getVehicles(): List<VehicleRepresentation> = vehicleRepository
+        .findFromTillNow(Instant.now().minusMillis(1000))
+        .map { it.toVehicleRepresentation() }
 }
