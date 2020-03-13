@@ -27,13 +27,13 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+    async trafficVehiclesBusesSinceLastFiveMinutesGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/traffic/vehicles`,
+            path: `/traffic/vehicles/busesSinceLastFiveMinutes`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -44,8 +44,32 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesGet(): Promise<Array<Vehicle>> {
-        const response = await this.trafficVehiclesGetRaw();
+    async trafficVehiclesBusesSinceLastFiveMinutesGet(): Promise<Array<Vehicle>> {
+        const response = await this.trafficVehiclesBusesSinceLastFiveMinutesGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async trafficVehiclesCarsSinceLastFiveSecondsGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/traffic/vehicles/carsSinceLastFiveSeconds`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(VehicleFromJSON));
+    }
+
+    /**
+     */
+    async trafficVehiclesCarsSinceLastFiveSecondsGet(): Promise<Array<Vehicle>> {
+        const response = await this.trafficVehiclesCarsSinceLastFiveSecondsGetRaw();
         return await response.value();
     }
 

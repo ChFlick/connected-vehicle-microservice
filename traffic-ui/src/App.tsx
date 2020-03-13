@@ -34,7 +34,7 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    setTimeout(() => this.api.trafficVehiclesGet().then((vehicles) => {
+    setTimeout(() => this.api.trafficVehiclesBusesSinceLastFiveMinutesGet().then((vehicles) => {
       const positions = vehicles.map(vehicle => ({
         // @ts-ignore
         location: new google.maps.LatLng(vehicle.longitude!, vehicle.latitude!),

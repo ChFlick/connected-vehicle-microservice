@@ -58,6 +58,19 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         return execute(query)
     }
 
+    override fun findBusesByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO> {
+        if (minutesFromNow < 1) {
+            return emptyList()
+        }
+
+        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
+            "FROM vehicle_data WHERE time > now() - ${minutesFromNow}m AND typeId = 'bus' GROUP BY vehicleId")
+
+        logger.info { "Querying " + query.command }
+
+        return execute(query)
+    }
+
     private fun execute(query: Query): List<VehicleDTO> {
         val result = influxDB.query(query) ?: return emptyList()
         val resultMapper = InfluxDBResultMapper()

@@ -10,4 +10,5 @@ interface VehicleRepository {
     fun findFromTillNow(start: Instant): List<VehicleDTO>
 
     fun findByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO>
+    fun findBusesByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO>
 }

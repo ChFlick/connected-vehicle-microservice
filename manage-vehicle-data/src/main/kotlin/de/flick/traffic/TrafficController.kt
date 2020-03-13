@@ -24,6 +24,7 @@ constructor(private val vehicleRepository: VehicleRepository) {
     private val logger = KotlinLogging.logger {}
 
     @GET
+    @Path("/carsSinceLastFiveSeconds")
     @PermitAll
     @Produces(APPLICATION_JSON)
     @APIResponse(
@@ -35,7 +36,25 @@ constructor(private val vehicleRepository: VehicleRepository) {
                 type = ARRAY)
         )]
     )
-    fun getVehicles(): List<VehicleRepresentation> = vehicleRepository
-        .findFromTillNow(Instant.now().minusMillis(1000))
+    fun getVehiclesLastFiveSeconds(): List<VehicleRepresentation> = vehicleRepository
+        .findFromTillNow(Instant.now().minusMillis(5000))
+        .map { it.toVehicleRepresentation() }
+
+    @GET
+    @Path("/busesSinceLastFiveMinutes")
+    @PermitAll
+    @Produces(APPLICATION_JSON)
+    @APIResponse(
+        responseCode = "200",
+        content = [Content(
+            mediaType = APPLICATION_JSON,
+            schema = Schema(
+                implementation = VehicleRepresentation::class,
+                type = ARRAY)
+        )]
+    )
+    fun getBussesLastFiveMinutes(): List<VehicleRepresentation> = vehicleRepository
+        .findBusesByMinutesFromNow(5)
         .map { it.toVehicleRepresentation() }
 }
+
