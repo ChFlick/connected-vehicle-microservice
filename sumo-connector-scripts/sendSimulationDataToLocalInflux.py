@@ -1,6 +1,5 @@
 import json
 import sys
-from dataclasses import dataclass
 from datetime import datetime
 
 import libsumo as traci
@@ -11,24 +10,29 @@ from influxdb import InfluxDBClient
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
 SUMO_DB = 'monaco'
-TRACI_PORT = 8081
-
 
 def run():
     if len(sys.argv) < 2:
         print('Please provide the path to the .sumocfg of a SUMO scenario')
         exit()
 
+    influx_host = INFLUX_HOST
+    influx_port = INFLUX_PORT
+
+    if len(sys.argv) == 4:
+        influx_host = sys.argv[2]
+        influx_port = int(sys.argv[3])
+
     print('started')
-    client = InfluxDBClient(INFLUX_HOST, INFLUX_PORT, 'admin', 'admin')
+    client = InfluxDBClient(influx_host, influx_port, 'admin', 'admin')
     client.drop_database(SUMO_DB)
     client.create_database(SUMO_DB)
     client.switch_database(SUMO_DB)
     print('client available')
 
     ## GUI / CLI
-    traci.start(["sumo-gui", "-c", sys.argv[1]])
-    # traci.start(["sumo", "-c", sys.argv[1]])
+#     traci.start(["sumo-gui", "-c", sys.argv[1]])
+    traci.start(["sumo", "-c", sys.argv[1]])
     print('traci init')
 
     step = 0
