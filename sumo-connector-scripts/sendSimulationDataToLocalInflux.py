@@ -1,6 +1,6 @@
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import libsumo as traci
 import traci
@@ -10,6 +10,9 @@ from influxdb import InfluxDBClient
 INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
 SUMO_DB = 'monaco'
+
+# 01.01.2020 7h (simulation starts at 4, so 3h)
+START_DATE = datetime(2020, 1, 1, 3)
 
 def run():
     if len(sys.argv) < 2:
@@ -76,7 +79,7 @@ def subscribe(vehicle_id):
 
 
 def subscriberToInfluxJson(vehicle_id, data) -> json:
-    time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    time = (timedelta(0, traci.simulation.getTime()) + START_DATE).strftime('%Y-%m-%dT%H:%M:%SZ')
     latitude, longitude = traci.simulation.convertGeo(
         data[tc.VAR_POSITION][0], data[tc.VAR_POSITION][1])
     speed_kmh = data[tc.VAR_SPEED] * 3.6
@@ -93,7 +96,8 @@ def subscriberToInfluxJson(vehicle_id, data) -> json:
             "longitude": longitude,
             "personCapacity": data[tc.VAR_PERSON_CAPACITY],
             "personNumber": data[tc.VAR_PERSON_NUMBER],
-            "typeId": data[tc.VAR_TYPE]
+            "typeId": data[tc.VAR_TYPE],
+            "captureTime": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         }
     }
 
