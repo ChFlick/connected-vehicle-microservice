@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.10",
     "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
@@ -13,6 +14,7 @@
     "@types/react": "^16.9.25",
     "@types/react-dom": "^16.9.0",
     "@types/react-leaflet": "^2.5.1",
+    "dayjs": "^1.8.24",
     "google-map-react": "^1.1.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

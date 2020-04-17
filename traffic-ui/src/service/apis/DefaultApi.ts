@@ -20,6 +20,11 @@ import {
     VehicleToJSON,
 } from '../models';
 
+export interface TrafficVehiclesBusesBetweenGetRequest {
+    end: Date;
+    start: Date;
+}
+
 /**
  * no description
  */
@@ -27,13 +32,29 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesBusesSinceLastFiveMinutesGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+    async trafficVehiclesBusesBetweenGetRaw(requestParameters: TrafficVehiclesBusesBetweenGetRequest): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+        if (requestParameters.end === null || requestParameters.end === undefined) {
+            throw new runtime.RequiredError('end','Required parameter requestParameters.end was null or undefined when calling trafficVehiclesBusesBetweenGet.');
+        }
+
+        if (requestParameters.start === null || requestParameters.start === undefined) {
+            throw new runtime.RequiredError('start','Required parameter requestParameters.start was null or undefined when calling trafficVehiclesBusesBetweenGet.');
+        }
+
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.end !== undefined) {
+            queryParameters['end'] = (requestParameters.end as any).toISOString();
+        }
+
+        if (requestParameters.start !== undefined) {
+            queryParameters['start'] = (requestParameters.start as any).toISOString();
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/traffic/vehicles/busesSinceLastFiveMinutes`,
+            path: `/traffic/vehicles/busesBetween`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -44,8 +65,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesBusesSinceLastFiveMinutesGet(): Promise<Array<Vehicle>> {
-        const response = await this.trafficVehiclesBusesSinceLastFiveMinutesGetRaw();
+    async trafficVehiclesBusesBetweenGet(requestParameters: TrafficVehiclesBusesBetweenGetRequest): Promise<Array<Vehicle>> {
+        const response = await this.trafficVehiclesBusesBetweenGetRaw(requestParameters);
         return await response.value();
     }
 

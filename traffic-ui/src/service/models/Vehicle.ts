@@ -51,10 +51,10 @@ export interface Vehicle {
     speed?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Vehicle
      */
-    time?: Date;
+    time?: string;
     /**
      * 
      * @type {string}
@@ -84,7 +84,7 @@ export function VehicleFromJSONTyped(json: any, ignoreDiscriminator: boolean): V
         'personCapacity': !exists(json, 'personCapacity') ? undefined : json['personCapacity'],
         'personNumber': !exists(json, 'personNumber') ? undefined : json['personNumber'],
         'speed': !exists(json, 'speed') ? undefined : json['speed'],
-        'time': !exists(json, 'time') ? undefined : (new Date(json['time'])),
+        'time': !exists(json, 'time') ? undefined : json['time'],
         'typeId': !exists(json, 'typeId') ? undefined : json['typeId'],
         'vehicleId': !exists(json, 'vehicleId') ? undefined : json['vehicleId'],
     };
@@ -104,7 +104,7 @@ export function VehicleToJSON(value?: Vehicle | null): any {
         'personCapacity': value.personCapacity,
         'personNumber': value.personNumber,
         'speed': value.speed,
-        'time': value.time === undefined ? undefined : (value.time.toISOString()),
+        'time': value.time,
         'typeId': value.typeId,
         'vehicleId': value.vehicleId,
     };

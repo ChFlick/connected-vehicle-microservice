@@ -1,9 +1,12 @@
 /* global google */
 
-import React from 'react';
+import dayjs from 'dayjs';
 import GoogleMapReact, { Coords } from 'google-map-react';
+import React from 'react';
 import './App.css';
-import { DefaultApi, Configuration } from './service';
+import { Configuration, DefaultApi, Vehicle } from './service';
+import VehicleList from './VehicleList';
+import { API_KEY } from './mapsapikey';
 
 type Position = {
   lat: Number;
@@ -18,7 +21,11 @@ interface HeatmapProp {
   };
 }
 
-class App extends React.Component {
+type State = {
+  vehicles: Vehicle[]
+}
+
+class App extends React.Component<{}, State> {
   googleMap: GoogleMapReact | null = null;
   center: Coords = { lng: 7.4, lat: 43.7372312 };
   zoom = 14;
@@ -33,8 +40,18 @@ class App extends React.Component {
     }
   };
 
+  state = {
+    vehicles: [],
+  };
+
   componentDidMount = () => {
-    setTimeout(() => this.api.trafficVehiclesBusesSinceLastFiveMinutesGet().then((vehicles) => {
+    setTimeout(() => this.api.trafficVehiclesBusesBetweenGet({
+      start: dayjs().subtract(5, "minute").toDate(),
+      end: dayjs().toDate(),
+    }).then((vehicles) => {
+      console.log("Number of busses:", vehicles.length);
+      this.setState(() => ({ vehicles }));
+
       const positions = vehicles.map(vehicle => ({
         // @ts-ignore
         location: new google.maps.LatLng(vehicle.longitude!, vehicle.latitude!),
@@ -55,7 +72,7 @@ class App extends React.Component {
       <div className="map-container" id='mapContainer'>
         <GoogleMapReact
           bootstrapURLKeys={{
-            key: 'AIzaSyDcCVy39I9x2nIHxi0FoB2MImUgTFmoEA4',
+            key: API_KEY,
             libraries: ['visualization']
           }}
           defaultCenter={this.center}
@@ -65,6 +82,10 @@ class App extends React.Component {
           heatmap={this.heatmapProp}
           ref={(el) => this.googleMap = el}
         />
+      </div>
+
+      <div>
+        <VehicleList vehicles={this.state.vehicles} />
       </div>
     </div>
   );
