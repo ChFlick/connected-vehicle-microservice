@@ -6,6 +6,7 @@ import org.influxdb.InfluxDB
 import org.influxdb.dto.Query
 import org.influxdb.impl.InfluxDBResultMapper
 import java.time.Instant
+import java.time.ZonedDateTime
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
@@ -23,7 +24,24 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data WHERE time > '$start' AND time < '$end' GROUP BY vehicleId")
+            "FROM vehicle_data " +
+            "WHERE time > '$start' AND time < '$end' " +
+            "GROUP BY vehicleId")
+
+        logger.info { "Querying " + query.command }
+
+        return execute(query)
+    }
+
+    override fun findBusesBetween(start: ZonedDateTime, end: ZonedDateTime): List<VehicleDTO> {
+        if (start.isAfter(end) || end.isAfter(ZonedDateTime.now())) {
+            return emptyList()
+        }
+
+        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
+            "FROM vehicle_data " +
+            "WHERE time > '$start' AND time < '$end' AND typeId = 'bus' " +
+            "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
 
@@ -36,7 +54,8 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data WHERE time > '$start' AND time < now() " +
+            "FROM vehicle_data " +
+            "WHERE time > '$start' AND time < now() " +
             "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
@@ -51,7 +70,9 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data WHERE time > now() - ${minutesFromNow}m GROUP BY vehicleId")
+            "FROM vehicle_data " +
+            "WHERE time > now() - ${minutesFromNow}m " +
+            "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
 
@@ -64,7 +85,9 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data WHERE time > now() - ${minutesFromNow}m AND typeId = 'bus' GROUP BY vehicleId")
+            "FROM vehicle_data " +
+            "WHERE time > now() - ${minutesFromNow}m AND typeId = 'bus' " +
+            "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
 
