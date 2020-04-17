@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.10",
+    "@material-ui/pickers": "v4.0.0-alpha.5",
     "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",

@@ -7,6 +7,7 @@ import './App.css';
 import { Configuration, DefaultApi, Vehicle } from './service';
 import VehicleList from './VehicleList';
 import { API_KEY } from './mapsapikey';
+import TimeOverlay from './TimeOverlay';
 
 type Position = {
   lat: Number;
@@ -69,6 +70,7 @@ class App extends React.Component<{}, State> {
 
   render = () => (
     <div className="app">
+      <TimeOverlay setTime={() => {}} />
       <div className="map-container" id='mapContainer'>
         <GoogleMapReact
           bootstrapURLKeys={{
