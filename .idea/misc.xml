@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/manage-vehicle-data" />
     <file type="web" url="file://$PROJECT_DIR$/service-a" />
     <file type="web" url="file://$PROJECT_DIR$/service-b" />
+    <file type="web" url="file://$PROJECT_DIR$/traffic-ui" />
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />

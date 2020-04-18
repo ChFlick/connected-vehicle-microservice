@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
-    id 'org.jetbrains.kotlin.plugin.allopen' version '1.3.41'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '1.3.61'
     id 'io.quarkus'
     id 'com.adarshr.test-logger' version '2.0.0'
 }
@@ -13,23 +13,21 @@ repositories {
 dependencies {
     implementation 'io.github.microutils:kotlin-logging:1.7.8'
     implementation 'org.influxdb:influxdb-java:2.15'
-    implementation "io.quarkus:quarkus-smallrye-metrics:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-health:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-kotlin:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-fault-tolerance:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-openapi:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-resteasy-jsonb:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-vertx:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-opentracing:${quarkusPlatformVersion}"
-    // implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation "io.quarkus:quarkus-core:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-resteasy:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-core-deployment:${quarkusPlatformVersion}"
+    implementation "io.quarkus:quarkus-smallrye-metrics"
+    implementation "io.quarkus:quarkus-smallrye-health"
+    implementation "io.quarkus:quarkus-kotlin"
+    implementation "io.quarkus:quarkus-smallrye-fault-tolerance"
+    implementation "io.quarkus:quarkus-smallrye-openapi"
+    implementation "io.quarkus:quarkus-resteasy-jsonb"
+    implementation "io.quarkus:quarkus-vertx"
+    implementation "io.quarkus:quarkus-smallrye-opentracing"
+     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation "io.quarkus:quarkus-resteasy"
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    testImplementation "io.quarkus:quarkus-junit5:${quarkusPlatformVersion}"
-    testImplementation 'io.rest-assured:rest-assured:4.2.0'
-    testImplementation 'org.testcontainers:junit-jupiter:1.12.5'
+    testImplementation "io.quarkus:quarkus-junit5"
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:influxdb:1.12.5'
     testImplementation 'org.assertj:assertj-core:3.15.0'
 }
