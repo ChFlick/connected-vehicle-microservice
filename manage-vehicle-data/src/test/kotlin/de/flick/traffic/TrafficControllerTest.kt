@@ -21,7 +21,7 @@ class TrafficControllerTest {
         given()
             .header(ACCEPT, APPLICATION_JSON)
         .`when`()
-            .get("/vehicles/carsSinceLastFiveSeconds")
+            .get("/traffic/vehicles/carsSinceLastFiveSeconds")
         .then()
             .statusCode(OK.statusCode)
             .body(notNullValue())
@@ -34,11 +34,11 @@ class TrafficControllerTest {
         given()
             .header(ACCEPT, APPLICATION_JSON)
             .params(mapOf(
-                "start" to ZonedDateTime.now().minusDays(1),
-                "end" to ZonedDateTime.now()
+                "start" to ZonedDateTime.now().minusDays(1).toString(),
+                "end" to ZonedDateTime.now().toString()
             ))
         .`when`()
-            .get("/vehicles/busesBetween")
+            .get("/traffic/vehicles/busesBetween")
         .then()
             .statusCode(OK.statusCode)
             .body(notNullValue())

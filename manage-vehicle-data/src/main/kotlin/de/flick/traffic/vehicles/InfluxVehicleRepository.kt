@@ -40,7 +40,7 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
             "FROM vehicle_data " +
-            "WHERE time > '$start' AND time < '$end' AND typeId = 'bus' " +
+            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId = 'bus' " +
             "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
