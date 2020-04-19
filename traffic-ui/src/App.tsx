@@ -1,13 +1,13 @@
 /* global google */
 
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import GoogleMapReact, { Coords } from 'google-map-react';
 import React from 'react';
 import './App.css';
-import { Configuration, DefaultApi, Vehicle } from './service';
-import VehicleList from './VehicleList';
 import { API_KEY } from './mapsapikey';
+import { Configuration, DefaultApi, Vehicle } from './service';
 import TimeOverlay from './TimeOverlay';
+import VehicleList from './VehicleList';
 
 type Position = {
   lat: Number;
@@ -25,6 +25,9 @@ interface HeatmapProp {
 type State = {
   vehicles: Vehicle[]
 }
+
+const INIT_START_TIME = dayjs("2020-01-01T07:00:00.000Z");
+const INIT_END_TIME = dayjs("2020-01-01T07:10:00.000Z");
 
 class App extends React.Component<{}, State> {
   googleMap: GoogleMapReact | null = null;
@@ -45,10 +48,14 @@ class App extends React.Component<{}, State> {
     vehicles: [],
   };
 
-  componentDidMount = () => {
-    setTimeout(() => this.api.trafficVehiclesBusesBetweenGet({
-      start: dayjs().subtract(5, "minute").toDate(),
-      end: dayjs().toDate(),
+  componentDidMount() {
+    setTimeout(() => this.setTime(INIT_START_TIME, INIT_END_TIME), 1000);
+  }
+
+  setTime = (start: Dayjs, end: Dayjs) => {
+    this.api.trafficVehiclesBusesBetweenGet({
+      start: start.toDate(),
+      end: end.toDate(),
     }).then((vehicles) => {
       console.log("Number of busses:", vehicles.length);
       this.setState(() => ({ vehicles }));
@@ -65,12 +72,16 @@ class App extends React.Component<{}, State> {
           (this.googleMap as any).heatmap.data.push(p);
         }
       });
-    }), 1000)
+    });
   }
 
   render = () => (
     <div className="app">
-      <TimeOverlay setTime={() => {}} />
+      <TimeOverlay
+        initStartTime={INIT_START_TIME}
+        initEndTime={INIT_END_TIME}
+        setTime={this.setTime}
+      />
       <div className="map-container" id='mapContainer'>
         <GoogleMapReact
           bootstrapURLKeys={{

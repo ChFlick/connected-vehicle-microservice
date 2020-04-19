@@ -1,15 +1,17 @@
 
 import React, { useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { TimePicker } from '@material-ui/pickers';
 
 type Props = {
+  initStartTime: Dayjs,
+  initEndTime: Dayjs,
   setTime: (start: Dayjs, end: Dayjs) => void;
 }
 
-const TimeOverlay: React.FC<Props> = ({ setTime }) => {
-  const [startDate, handleStartDateChange] = useState(dayjs());
-  const [endDate, handleEndDateChange] = useState(dayjs());
+const TimeOverlay: React.FC<Props> = ({ initStartTime, initEndTime, setTime }) => {
+  const [startDate, handleStartDateChange] = useState(initStartTime);
+  const [endDate, handleEndDateChange] = useState(initEndTime);
 
   return (
     <>
