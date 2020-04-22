@@ -48,6 +48,24 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         return execute(query)
     }
 
+    override fun meanBusDataBetween(start: ZonedDateTime, end: ZonedDateTime, meanBy: String): List<VehicleDTO> {
+        if (start.isAfter(end) || end.isAfter(ZonedDateTime.now())) {
+            return emptyList()
+        }
+
+        val query = Query("SELECT " +
+            "mean(personNumber) as personNumber, " +
+            "mean(speed) as speed, " +
+            "mean(personCapacity) as personCapacity " +
+            "FROM vehicle_data " +
+            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId = 'bus' " +
+            "GROUP BY vehicleId, time($meanBy)")
+
+        logger.info { "Querying " + query.command }
+
+        return execute(query)
+    }
+
     override fun findFromTillNow(start: Instant): List<VehicleDTO> {
         if (start.isAfter(Instant.now())) {
             return emptyList()

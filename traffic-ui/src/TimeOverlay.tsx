@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Dayjs } from 'dayjs';
 import { TimePicker } from '@material-ui/pickers';
+import { Button } from '@material-ui/core';
 
 type Props = {
   initStartTime: Dayjs,
@@ -15,18 +16,9 @@ const TimeOverlay: React.FC<Props> = ({ initStartTime, initEndTime, setTime }) =
 
   return (
     <>
-      <TimePicker ampm={false} label="Start" value={startDate} onChange={(date) => {
-        if (date) {
-          handleStartDateChange(date);
-          setTime(date, endDate);
-        }
-      }} />
-      <TimePicker ampm={false} label="Ende" value={endDate} onChange={(date) => {
-        if (date) {
-          handleEndDateChange(date);
-          setTime(startDate, date);
-        }
-      }} />
+      <TimePicker ampm={false} label="Start" value={startDate} onChange={(date) => handleStartDateChange(date!)} />
+      <TimePicker ampm={false} label="Ende" value={endDate} onChange={(date) => handleEndDateChange(date!)} />
+      <Button variant="contained" color="primary" onClick={() => setTime(startDate, endDate)}>Set Time</Button>
     </>
   )
 };

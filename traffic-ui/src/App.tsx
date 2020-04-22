@@ -23,7 +23,7 @@ interface HeatmapProp {
 }
 
 type State = {
-  vehicles: Vehicle[]
+  vehicleMeans: Vehicle[]
 }
 
 const INIT_START_TIME = dayjs("2020-01-01T07:00:00.000Z");
@@ -45,7 +45,7 @@ class App extends React.Component<{}, State> {
   };
 
   state = {
-    vehicles: [],
+    vehicleMeans: [],
   };
 
   componentDidMount() {
@@ -53,13 +53,18 @@ class App extends React.Component<{}, State> {
   }
 
   setTime = (start: Dayjs, end: Dayjs) => {
+    this.api.trafficVehiclesBusesMeanDataBetweenGet({
+      start: start.toDate(),
+      end: end.toDate()
+    }).then((vehicleMeans) => {
+      this.setState(() => ({ vehicleMeans }));
+    })
+
     this.api.trafficVehiclesBusesBetweenGet({
       start: start.toDate(),
       end: end.toDate(),
     }).then((vehicles) => {
       console.log("Number of busses:", vehicles.length);
-      this.setState(() => ({ vehicles }));
-
       const positions = vehicles.map(vehicle => ({
         // @ts-ignore
         location: new google.maps.LatLng(vehicle.longitude!, vehicle.latitude!),
@@ -98,7 +103,7 @@ class App extends React.Component<{}, State> {
       </div>
 
       <div>
-        <VehicleList vehicles={this.state.vehicles} />
+        <VehicleList vehicles={this.state.vehicleMeans} />
       </div>
     </div>
   );
