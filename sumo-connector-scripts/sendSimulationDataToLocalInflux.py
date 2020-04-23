@@ -77,12 +77,15 @@ def subscribe(vehicle_id):
     traci.vehicle.subscribe(vehicle_id, [
                             tc.VAR_SPEED, tc.VAR_POSITION, tc.VAR_TYPE, tc.VAR_PERSON_CAPACITY, tc.VAR_PERSON_NUMBER])
 
+def isInfOrNan(num):
+    return float(num) != float(num) or float(num) == float('inf')
 
 def subscriberToInfluxJson(vehicle_id, data) -> json:
     time = (timedelta(0, traci.simulation.getTime()) + START_DATE).strftime('%Y-%m-%dT%H:%M:%SZ')
     latitude, longitude = traci.simulation.convertGeo(
         data[tc.VAR_POSITION][0], data[tc.VAR_POSITION][1])
     speed_kmh = data[tc.VAR_SPEED] * 3.6
+    speed_kmh = 0.0 if speed_kmh < 0 else speed_kmh
     return {
         "measurement": "vehicle_data",
         "time": time,
@@ -92,8 +95,8 @@ def subscriberToInfluxJson(vehicle_id, data) -> json:
         },
         "fields": {
             "speed": speed_kmh,
-            "latitude": latitude,
-            "longitude": longitude,
+            "latitude": 0.0 if isInfOrNan(latitude) else latitude,
+            "longitude": 0.0 if isInfOrNan(longitude) else longitude,
             "personCapacity": data[tc.VAR_PERSON_CAPACITY],
             "personNumber": data[tc.VAR_PERSON_NUMBER],
             "typeId": data[tc.VAR_TYPE],
