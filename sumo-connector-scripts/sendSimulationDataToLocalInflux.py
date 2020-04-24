@@ -11,8 +11,8 @@ INFLUX_HOST = 'localhost'
 INFLUX_PORT = 8086
 SUMO_DB = 'monaco'
 
-# 01.01.2020 7h (simulation starts at 4, so 3h)
-START_DATE = datetime(2020, 1, 1, 3)
+# 01.01.2020
+START_DATE = datetime(2020, 1, 1)
 
 def run():
     if len(sys.argv) < 2:
