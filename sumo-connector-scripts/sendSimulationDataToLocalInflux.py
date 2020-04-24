@@ -41,7 +41,7 @@ def run():
     step = 0
 
     startTime = datetime.now()
-
+    print('started at ', startTime.strftime('%Y-%m-%dT%H:%M:%SZ'))
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
         departed_ids = traci.simulation.getDepartedIDList()
@@ -59,8 +59,8 @@ def run():
         step += 1
 
         if(step % 1000 == 0):
-            print("\n", "Time:", traci.simulation.getTime())
-            print("Vehicles:", traci.vehicle.getIDCount())
+            print('\n', 'Subscriptions: ', len(subscription_results))
+            print('Time: ', datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'))
     traci.close()
 
     endTime = datetime.now()
