@@ -1,0 +1,2 @@
+#!/bin/bash
+python3 -u "$SCRIPT_FOLDER"/runSimulation.py "$SCRIPT_FOLDER"/MoSTScenario-"$MOST_VERSION"/scenario/most.traci.sumocfg "$INFLUX_HOST" "$INFLUX_PORT"

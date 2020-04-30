@@ -1,8 +1,6 @@
 FROM ubuntu:bionic
 
 ENV MOST_VERSION 0.6
-ENV INFLUX_HOST localhost
-ENV INFLUX_PORT 8086
 ENV SCRIPT_FOLDER /app
 ENV SUMO_VERSION 1.6.0
 ENV SUMO_HOME /usr/share/sumo
@@ -33,7 +31,6 @@ WORKDIR $SCRIPT_FOLDER
 RUN wget https://github.com/lcodeca/MoSTScenario/archive/v$MOST_VERSION.tar.gz && \
     tar -xzf v$MOST_VERSION.tar.gz && \
     rm v$MOST_VERSION.tar.gz
-RUN pip3 install influxdb
 
 COPY . .
 RUN chmod +x start.sh
