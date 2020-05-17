@@ -5,7 +5,6 @@ import mu.KotlinLogging
 import org.influxdb.InfluxDB
 import org.influxdb.dto.Query
 import org.influxdb.impl.InfluxDBResultMapper
-import java.time.Instant
 import java.time.ZonedDateTime
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -18,29 +17,14 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
     @Inject
     constructor (influxDBProvider: InfluxDBProvider) : this(influxDBProvider.get())
 
-    override fun findByStartAndEndTime(start: Instant, end: Instant): List<VehicleDTO> {
-        if (start.isAfter(end) || end.isAfter(Instant.now())) {
-            return emptyList()
-        }
-
-        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data " +
-            "WHERE time > '$start' AND time < '$end' " +
-            "GROUP BY vehicleId")
-
-        logger.info { "Querying " + query.command }
-
-        return execute(query)
-    }
-
-    override fun findBusesBetween(start: ZonedDateTime, end: ZonedDateTime): List<VehicleDTO> {
+    override fun findVehiclesBetween(start: ZonedDateTime, end: ZonedDateTime): List<VehicleDTO> {
         if (start.isAfter(end) || end.isAfter(ZonedDateTime.now())) {
             return emptyList()
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
             "FROM vehicle_data " +
-            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId = 'bus' " +
+            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId != 'bus' " +
             "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }
@@ -48,7 +32,7 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         return execute(query)
     }
 
-    override fun meanBusDataBetween(start: ZonedDateTime, end: ZonedDateTime, meanBy: String): List<VehicleDTO> {
+    override fun meanVehicleDataBetween(start: ZonedDateTime, end: ZonedDateTime, meanBy: String): List<VehicleDTO> {
         if (start.isAfter(end) || end.isAfter(ZonedDateTime.now())) {
             return emptyList()
         }
@@ -58,7 +42,7 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
             "mean(speed) as speed, " +
             "mean(personCapacity) as personCapacity " +
             "FROM vehicle_data " +
-            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId = 'bus' " +
+            "WHERE time > '${start.toInstant()}' AND time < '${end.toInstant()}' AND typeId != 'bus' " +
             "GROUP BY vehicleId, time($meanBy)")
 
         logger.info { "Querying " + query.command }
@@ -66,45 +50,14 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
         return execute(query)
     }
 
-    override fun findFromTillNow(start: Instant): List<VehicleDTO> {
-        if (start.isAfter(Instant.now())) {
-            return emptyList()
-        }
-
-        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data " +
-            "WHERE time > '$start' AND time < now() " +
-            "GROUP BY vehicleId")
-
-        logger.info { "Querying " + query.command }
-
-        return execute(query)
-    }
-
-
-    override fun findByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO> {
+    override fun findVehiclesByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO> {
         if (minutesFromNow < 1) {
             return emptyList()
         }
 
         val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
             "FROM vehicle_data " +
-            "WHERE time > now() - ${minutesFromNow}m " +
-            "GROUP BY vehicleId")
-
-        logger.info { "Querying " + query.command }
-
-        return execute(query)
-    }
-
-    override fun findBusesByMinutesFromNow(minutesFromNow: Int): List<VehicleDTO> {
-        if (minutesFromNow < 1) {
-            return emptyList()
-        }
-
-        val query = Query("SELECT latitude, longitude, personNumber, personCapacity, speed, typeId " +
-            "FROM vehicle_data " +
-            "WHERE time > now() - ${minutesFromNow}m AND typeId = 'bus' " +
+            "WHERE time > now() - ${minutesFromNow}m AND typeId != 'bus' " +
             "GROUP BY vehicleId")
 
         logger.info { "Querying " + query.command }

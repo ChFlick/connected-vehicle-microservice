@@ -14,7 +14,7 @@ import javax.ws.rs.core.Application
         version = "1.0",
         contact = Contact(name = "Christoph Flick")),
     servers = [
-        Server(url = "http://localhost:8083")
+        Server(url = "http://localhost:8084")
     ]
 )
 class TrafficApplication : Application()

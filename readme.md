@@ -14,8 +14,13 @@ To start the connection of SUMO to the influxDB:
 Services
 --------
 
-The **public-transport-service** service is responsible for reading and processing the data coming from the InfluxDB.
+The **public-transport-service** service is responsible for reading and processing the data concerning public transport.  
+Port `8084`
 
-The **traffic-ui** service simple serves a react frontend which accesses data via the public-transport-service and displays it.
+The **general-traffic-service** service is responsible for reading and processing the data concerning general traffic, excluding public transport.  
+Port `8083`
 
-Both services are build on top of quarkus and can be started either compiling them and running the resulting jar file, or by running the quarkusDev gradle goal.
+The **traffic-ui** service simple serves a react frontend which accesses data via the public-transport-service and displays it.  
+Port `8080`
+
+All services are build on top of quarkus and can be started either compiling them and running the resulting jar file, or by running the quarkusDev gradle goal.

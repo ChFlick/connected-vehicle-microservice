@@ -8,7 +8,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Content
 import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
-import java.time.Instant
 import java.time.ZonedDateTime
 import javax.annotation.security.PermitAll
 import javax.enterprise.context.RequestScoped
@@ -23,22 +22,6 @@ class TrafficController
 @Inject
 constructor(private val vehicleRepository: VehicleRepository) {
     private val logger = KotlinLogging.logger {}
-
-    @GET
-    @Path("/carsSinceLastFiveSeconds")
-    @PermitAll
-    @Produces(APPLICATION_JSON)
-    @APIResponse(
-        responseCode = "200",
-        content = [Content(
-            mediaType = APPLICATION_JSON,
-            schema = Schema(
-                implementation = VehicleDTO::class,
-                type = ARRAY)
-        )]
-    )
-    fun getVehiclesLastFiveSeconds(): List<VehicleDTO> = vehicleRepository
-        .findFromTillNow(Instant.now().minusMillis(5000))
 
     @GET
     @Path("/busesBetween")

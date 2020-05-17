@@ -1,4 +1,4 @@
-# public transport service
+# general traffic service
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
