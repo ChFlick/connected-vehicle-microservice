@@ -6,8 +6,6 @@ libs/
 tmp/
 node_modules/
 
-!gradle-wrapper.jar
-
 # Some logfiles
 lsp/
 
@@ -18,6 +16,8 @@ lsp/
 
 # Package Files #
 *.jar
+!gradle-wrapper.jar
+
 *.war
 *.ear
 *.db
