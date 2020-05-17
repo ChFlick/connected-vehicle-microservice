@@ -1,4 +1,4 @@
-name: manage-vehicle-data
+name: public-transport-service
 
 on: [push]
 
@@ -13,5 +13,5 @@ jobs:
         with:
           java-version: 13
 
-      - name: Gradle build & test Manage Vehicle Data
-        run: cd ./manage-vehicle-data/ && ./gradlew build check
+      - name: Gradle build & test public-transport-service
+        run: cd ./public-transport-service/ && ./gradlew build check

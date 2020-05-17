@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/manage-vehicle-data .
+# docker build -f src/main/docker/Dockerfile.native -t quarkus/public-transport-service .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/manage-vehicle-data
+# docker run -i --rm -p 8080:8080 quarkus/public-transport-service
 #
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.1

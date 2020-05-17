@@ -2,7 +2,7 @@ Connected Vehicle Service
 =========================
 
 ![traffic-ui](https://github.com/ChFlick/connected-vehicle-microservice/workflows/traffic-ui/badge.svg)
-![manage-vehicle-data](https://github.com/ChFlick/connected-vehicle-microservice/workflows/manage-vehicle-data/badge.svg)
+![public-transport-service](https://github.com/ChFlick/connected-vehicle-microservice/workflows/public-transport-service/badge.svg)
 
 SUMO-InfluxDB Connection
 ------------------------
@@ -14,8 +14,8 @@ To start the connection of SUMO to the influxDB:
 Services
 --------
 
-The **manage-vehicle-data** service is responsible for reading and processing the data coming from the InfluxDB.
+The **public-transport-service** service is responsible for reading and processing the data coming from the InfluxDB.
 
-The **traffic-ui** service simple serves a react frontend which accesses data via the manage-vehicle-data service and displays it.
+The **traffic-ui** service simple serves a react frontend which accesses data via the public-transport-service and displays it.
 
 Both services are build on top of quarkus and can be started either compiling them and running the resulting jar file, or by running the quarkusDev gradle goal.
