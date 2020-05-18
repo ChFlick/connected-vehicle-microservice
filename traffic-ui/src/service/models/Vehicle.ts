@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Traffic API
+ * Public Transport API
  * This API allows CRUD operations on SUMO Traffic data
  *
  * The version of the OpenAPI document: 1.0

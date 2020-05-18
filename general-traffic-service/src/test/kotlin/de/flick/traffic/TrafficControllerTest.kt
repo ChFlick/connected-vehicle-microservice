@@ -16,20 +16,7 @@ import javax.ws.rs.core.Response.Status.OK
 class TrafficControllerTest {
 
     @Test
-    fun carsSinceLastFiveSeconds_IsAvailable() {
-        // @formatter:off
-        given()
-            .header(ACCEPT, APPLICATION_JSON)
-        .`when`()
-            .get("/traffic/vehicles/carsSinceLastFiveSeconds")
-        .then()
-            .statusCode(OK.statusCode)
-            .body(notNullValue())
-        // @formatter:on
-    }
-
-    @Test
-    fun busesBetween_IsAvailable() {
+    fun vehiclesBetween_IsAvailable() {
         // @formatter:off
         given()
             .header(ACCEPT, APPLICATION_JSON)
@@ -38,7 +25,7 @@ class TrafficControllerTest {
                 "end" to ZonedDateTime.now().toString()
             ))
         .`when`()
-            .get("/traffic/vehicles/busesBetween")
+            .get("/general-traffic/vehicles/between")
         .then()
             .statusCode(OK.statusCode)
             .body(notNullValue())

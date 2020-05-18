@@ -18,13 +18,13 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON
 
 @Path("/vehicles")
 @RequestScoped
-class TrafficController
+class GeneralTrafficController
 @Inject
 constructor(private val vehicleRepository: VehicleRepository) {
     private val logger = KotlinLogging.logger {}
 
     @GET
-    @Path("/vehiclesBetween")
+    @Path("/between")
     @PermitAll
     @Produces(APPLICATION_JSON)
     @APIResponse(
@@ -53,7 +53,7 @@ constructor(private val vehicleRepository: VehicleRepository) {
         .findVehiclesBetween(ZonedDateTime.parse(start), ZonedDateTime.parse(end))
 
     @GET
-    @Path("/vehiclesMeanDataBetween")
+    @Path("/mean-data-between")
     @PermitAll
     @Produces(APPLICATION_JSON)
     @APIResponse(

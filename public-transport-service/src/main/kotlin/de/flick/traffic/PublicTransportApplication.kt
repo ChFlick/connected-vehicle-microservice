@@ -7,9 +7,9 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server
 import javax.ws.rs.ApplicationPath
 import javax.ws.rs.core.Application
 
-@ApplicationPath("/traffic")
+@ApplicationPath("/public-transport")
 @OpenAPIDefinition(
-    info = Info(title = "Traffic API",
+    info = Info(title = "Public Transport API",
         description = "This API allows CRUD operations on SUMO Traffic data",
         version = "1.0",
         contact = Contact(name = "Christoph Flick")),
@@ -17,4 +17,4 @@ import javax.ws.rs.core.Application
         Server(url = "http://localhost:8083")
     ]
 )
-class TrafficApplication : Application()
+class PublicTransportApplication : Application()

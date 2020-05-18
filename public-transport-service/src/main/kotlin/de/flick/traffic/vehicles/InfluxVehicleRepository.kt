@@ -5,7 +5,6 @@ import mu.KotlinLogging
 import org.influxdb.InfluxDB
 import org.influxdb.dto.Query
 import org.influxdb.impl.InfluxDBResultMapper
-import java.time.Instant
 import java.time.ZonedDateTime
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject

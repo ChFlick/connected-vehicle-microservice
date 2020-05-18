@@ -13,20 +13,7 @@ import javax.ws.rs.core.Response.Status.OK
 
 @QuarkusTest
 @QuarkusTestResource(InfluxDBResource::class)
-class TrafficControllerTest {
-
-    @Test
-    fun carsSinceLastFiveSeconds_IsAvailable() {
-        // @formatter:off
-        given()
-            .header(ACCEPT, APPLICATION_JSON)
-        .`when`()
-            .get("/traffic/vehicles/carsSinceLastFiveSeconds")
-        .then()
-            .statusCode(OK.statusCode)
-            .body(notNullValue())
-        // @formatter:on
-    }
+class BusesControllerTest {
 
     @Test
     fun busesBetween_IsAvailable() {
@@ -38,7 +25,7 @@ class TrafficControllerTest {
                 "end" to ZonedDateTime.now().toString()
             ))
         .`when`()
-            .get("/traffic/vehicles/busesBetween")
+            .get("/public-transport/buses/between")
         .then()
             .statusCode(OK.statusCode)
             .body(notNullValue())

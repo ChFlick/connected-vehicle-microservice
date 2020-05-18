@@ -53,14 +53,14 @@ class App extends React.Component<{}, State> {
   }
 
   setTime = (start: Dayjs, end: Dayjs) => {
-    this.api.trafficVehiclesBusesMeanDataBetweenGet({
+    this.api.publicTransportBusesMeanDataBetweenGet({
       start: start.toDate(),
       end: end.toDate()
     }).then((vehicleMeans) => {
       this.setState(() => ({ vehicleMeans }));
     })
 
-    this.api.trafficVehiclesBusesBetweenGet({
+    this.api.publicTransportBusesBetweenGet({
       start: start.toDate(),
       end: end.toDate(),
     }).then((vehicles) => {

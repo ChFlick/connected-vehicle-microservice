@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Traffic API
+ * Public Transport API
  * This API allows CRUD operations on SUMO Traffic data
  *
  * The version of the OpenAPI document: 1.0
@@ -20,12 +20,12 @@ import {
     VehicleToJSON,
 } from '../models';
 
-export interface TrafficVehiclesBusesBetweenGetRequest {
+export interface PublicTransportBusesBetweenGetRequest {
     end: Date;
     start: Date;
 }
 
-export interface TrafficVehiclesBusesMeanDataBetweenGetRequest {
+export interface PublicTransportBusesMeanDataBetweenGetRequest {
     end: Date;
     start: Date;
     meanBy?: string;
@@ -38,13 +38,13 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesBusesBetweenGetRaw(requestParameters: TrafficVehiclesBusesBetweenGetRequest): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+    async publicTransportBusesBetweenGetRaw(requestParameters: PublicTransportBusesBetweenGetRequest): Promise<runtime.ApiResponse<Array<Vehicle>>> {
         if (requestParameters.end === null || requestParameters.end === undefined) {
-            throw new runtime.RequiredError('end','Required parameter requestParameters.end was null or undefined when calling trafficVehiclesBusesBetweenGet.');
+            throw new runtime.RequiredError('end','Required parameter requestParameters.end was null or undefined when calling publicTransportBusesBetweenGet.');
         }
 
         if (requestParameters.start === null || requestParameters.start === undefined) {
-            throw new runtime.RequiredError('start','Required parameter requestParameters.start was null or undefined when calling trafficVehiclesBusesBetweenGet.');
+            throw new runtime.RequiredError('start','Required parameter requestParameters.start was null or undefined when calling publicTransportBusesBetweenGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -60,7 +60,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/traffic/vehicles/busesBetween`,
+            path: `/public-transport/buses/between`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -71,20 +71,20 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesBusesBetweenGet(requestParameters: TrafficVehiclesBusesBetweenGetRequest): Promise<Array<Vehicle>> {
-        const response = await this.trafficVehiclesBusesBetweenGetRaw(requestParameters);
+    async publicTransportBusesBetweenGet(requestParameters: PublicTransportBusesBetweenGetRequest): Promise<Array<Vehicle>> {
+        const response = await this.publicTransportBusesBetweenGetRaw(requestParameters);
         return await response.value();
     }
 
     /**
      */
-    async trafficVehiclesBusesMeanDataBetweenGetRaw(requestParameters: TrafficVehiclesBusesMeanDataBetweenGetRequest): Promise<runtime.ApiResponse<Array<Vehicle>>> {
+    async publicTransportBusesMeanDataBetweenGetRaw(requestParameters: PublicTransportBusesMeanDataBetweenGetRequest): Promise<runtime.ApiResponse<Array<Vehicle>>> {
         if (requestParameters.end === null || requestParameters.end === undefined) {
-            throw new runtime.RequiredError('end','Required parameter requestParameters.end was null or undefined when calling trafficVehiclesBusesMeanDataBetweenGet.');
+            throw new runtime.RequiredError('end','Required parameter requestParameters.end was null or undefined when calling publicTransportBusesMeanDataBetweenGet.');
         }
 
         if (requestParameters.start === null || requestParameters.start === undefined) {
-            throw new runtime.RequiredError('start','Required parameter requestParameters.start was null or undefined when calling trafficVehiclesBusesMeanDataBetweenGet.');
+            throw new runtime.RequiredError('start','Required parameter requestParameters.start was null or undefined when calling publicTransportBusesMeanDataBetweenGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -104,7 +104,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/traffic/vehicles/busesMeanDataBetween`,
+            path: `/public-transport/buses/mean-data-between`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -115,32 +115,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async trafficVehiclesBusesMeanDataBetweenGet(requestParameters: TrafficVehiclesBusesMeanDataBetweenGetRequest): Promise<Array<Vehicle>> {
-        const response = await this.trafficVehiclesBusesMeanDataBetweenGetRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     */
-    async trafficVehiclesCarsSinceLastFiveSecondsGetRaw(): Promise<runtime.ApiResponse<Array<Vehicle>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/traffic/vehicles/carsSinceLastFiveSeconds`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(VehicleFromJSON));
-    }
-
-    /**
-     */
-    async trafficVehiclesCarsSinceLastFiveSecondsGet(): Promise<Array<Vehicle>> {
-        const response = await this.trafficVehiclesCarsSinceLastFiveSecondsGetRaw();
+    async publicTransportBusesMeanDataBetweenGet(requestParameters: PublicTransportBusesMeanDataBetweenGetRequest): Promise<Array<Vehicle>> {
+        const response = await this.publicTransportBusesMeanDataBetweenGetRaw(requestParameters);
         return await response.value();
     }
 
