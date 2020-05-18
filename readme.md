@@ -3,6 +3,7 @@ Connected Vehicle Service
 
 ![traffic-ui](https://github.com/ChFlick/connected-vehicle-microservice/workflows/traffic-ui/badge.svg)
 ![public-transport-service](https://github.com/ChFlick/connected-vehicle-microservice/workflows/public-transport-service/badge.svg)
+![general-traffic-service](https://github.com/ChFlick/connected-vehicle-microservice/workflows/general-traffic-service/badge.svg)
 
 SUMO-InfluxDB Connection
 ------------------------
