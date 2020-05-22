@@ -67,9 +67,7 @@ private constructor(private val influxDB: InfluxDB) : VehicleRepository {
 
     private fun execute(query: Query): List<VehicleDTO> {
         val result = influxDB.query(query) ?: return emptyList()
-        val resultMapper = InfluxDBResultMapper()
-
-        return resultMapper.toPOJO(result, VehicleDTO::class.java)
+        return InfluxDBResultMapper().toPOJO(result, VehicleDTO::class.java)
     }
 
 }
