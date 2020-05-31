@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Dayjs } from 'dayjs';
 import { TimePicker } from '@material-ui/pickers';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 
 type Props = {
   initStartTime: Dayjs,
@@ -10,27 +10,27 @@ type Props = {
   setTime: (start: Dayjs, end: Dayjs) => void;
 }
 
-const INTERVAL_SECONDS = 20;
 
 const TimeOverlay: React.FC<Props> = ({ initStartTime, initEndTime, setTime }) => {
   const [startDate, handleStartDateChange] = useState(initStartTime);
   const [endDate, handleEndDateChange] = useState(initEndTime);
   const [isRealTime, setRealTime] = useState(false);
+  const [realTimeHandle, setRealTimeHandle] = useState<NodeJS.Timeout>();
+  const [refreshTime, setRefreshTime] = useState(20);
 
-  let realTimeHandle: NodeJS.Timeout;
   const startRT = () => {
     let counter = 0;
     setRealTime(true);
-    realTimeHandle = setInterval(() => {
+    setRealTimeHandle(setInterval(() => {
       counter++;
-      handleStartDateChange(startDate.add(counter * INTERVAL_SECONDS, "s"));
-      handleEndDateChange(endDate.add(counter * INTERVAL_SECONDS, "s"));
-      setTime(startDate.add(counter * INTERVAL_SECONDS, "s"), endDate.add(counter * INTERVAL_SECONDS, "s"));
-    }, INTERVAL_SECONDS * 1000);
+      handleStartDateChange(startDate.add(counter * refreshTime, "s"));
+      handleEndDateChange(endDate.add(counter * refreshTime, "s"));
+      setTime(startDate.add(counter * refreshTime, "s"), endDate.add(counter * refreshTime, "s"));
+    }, refreshTime * 1000));
   }
   const endRT = () => {
     setRealTime(false);
-    clearInterval(realTimeHandle);
+    clearInterval(realTimeHandle!);
   }
 
   return (
@@ -40,6 +40,13 @@ const TimeOverlay: React.FC<Props> = ({ initStartTime, initEndTime, setTime }) =
       <Button variant="contained" color="primary" onClick={() => setTime(startDate, endDate)}>Set Time</Button>
       <Button variant="contained" color="primary" disabled={isRealTime} onClick={startRT}>Start real-time</Button>
       <Button variant="contained" color="primary" disabled={!isRealTime} onClick={endRT}>End real-time</Button>
+      <TextField color="primary" disabled={isRealTime} type="number" label="Refresh time in seconds"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={refreshTime}
+        onChange={(time) => setRefreshTime(parseInt(time.target.value))}
+      />
     </>
   )
 };

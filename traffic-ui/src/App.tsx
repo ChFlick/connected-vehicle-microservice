@@ -1,5 +1,3 @@
-/* global google */
-
 import dayjs, { Dayjs } from 'dayjs';
 import GoogleMapReact, { Coords } from 'google-map-react';
 import React from 'react';
@@ -17,17 +15,21 @@ type Position = {
 interface HeatmapProp {
   positions: Position[];
   options: {
-    radius?: number;
-    opacity?: number;
+    radius: number;
+    opacity: number;
+    maxIntensity: number;
   };
 }
 
 type State = {
-  vehicleMeans: Vehicle[]
+  vehicleMeans: Vehicle[];
+  heatmapProp: HeatmapProp;
 }
 
 const INIT_START_TIME = dayjs("2020-01-01T07:00:00.000Z");
 const INIT_END_TIME = dayjs("2020-01-01T07:10:00.000Z");
+
+const INTENSITY_MULTIPLIER = 40;
 
 class App extends React.Component<{}, State> {
   googleMap: GoogleMapReact | null = null;
@@ -36,16 +38,16 @@ class App extends React.Component<{}, State> {
 
   api = new DefaultApi(new Configuration({ basePath: 'http://localhost:8083' }));
 
-  heatmapProp: HeatmapProp = {
-    positions: [],
-    options: {
-      opacity: 1,
-      radius: 10,
-    }
-  };
-
   state = {
     vehicleMeans: [],
+    heatmapProp: {
+      positions: [],
+      options: {
+        opacity: 1,
+        radius: 10,
+        maxIntensity: INTENSITY_MULTIPLIER * INIT_END_TIME.diff(INIT_START_TIME, "minute"),
+      }
+    },
   };
 
   componentDidMount() {
@@ -53,11 +55,25 @@ class App extends React.Component<{}, State> {
   }
 
   setTime = (start: Dayjs, end: Dayjs) => {
+    this.setState((state) => ({
+      ...state,
+      heatmapProp: {
+        ...state.heatmapProp,
+        options: {
+          ...state.heatmapProp.options,
+          maxIntensity: INTENSITY_MULTIPLIER * end.diff(start, "minute"),
+        }
+      }
+    }))
+
     this.api.publicTransportBusesMeanDataBetweenGet({
       start: start.toDate(),
       end: end.toDate()
     }).then((vehicleMeans) => {
-      this.setState(() => ({ vehicleMeans }));
+      this.setState((state) => ({
+        ...state,
+        vehicleMeans
+      }));
     })
 
     this.api.publicTransportBusesBetweenGet({
@@ -66,17 +82,21 @@ class App extends React.Component<{}, State> {
     }).then((vehicles) => {
       console.log("Number of busses:", vehicles.length);
       const positions = vehicles.map(vehicle => ({
-        // @ts-ignore
-        location: new google.maps.LatLng(vehicle.longitude!, vehicle.latitude!),
+        lat: vehicle.longitude!,
+        lng: vehicle.latitude!,
         weight: 1 + (vehicle.personNumber || 0),
       }));
 
-      // this.heatmapProp.positions = positions;
-      positions.forEach(p => {
-        if (this.googleMap) {
-          (this.googleMap as any).heatmap.data.push(p);
+      this.setState((state) => ({
+        ...state,
+        heatmapProp: {
+          ...this.state.heatmapProp,
+          positions,
         }
-      });
+      }));
+
+      console.log(this.state);
+
     });
   }
 
@@ -97,7 +117,7 @@ class App extends React.Component<{}, State> {
           defaultZoom={this.zoom}
           heatmapLibrary={true}
           // @ts-ignore
-          heatmap={this.heatmapProp}
+          heatmap={this.state.heatmapProp}
           ref={(el) => this.googleMap = el}
         />
       </div>
