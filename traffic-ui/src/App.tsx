@@ -33,7 +33,7 @@ const INTENSITY_MULTIPLIER = 40;
 
 class App extends React.Component<{}, State> {
   googleMap: GoogleMapReact | null = null;
-  center: Coords = { lng: 7.4, lat: 43.7372312 };
+  center: Coords = { lng: 7.42, lat: 43.7372312 };
   zoom = 14;
 
   api = new DefaultApi(new Configuration({ basePath: 'http://localhost:8083' }));
